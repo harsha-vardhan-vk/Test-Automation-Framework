@@ -11,7 +11,7 @@
 	<properties>
 		<browser>chrome</browser>
 		<isLambdaTest>false</isLambdaTest>
-		<isHeadLess>false</isHeadLess>
+		<isHeadLess>true</isHeadLess>
 	</properties>
 
 	<build>
