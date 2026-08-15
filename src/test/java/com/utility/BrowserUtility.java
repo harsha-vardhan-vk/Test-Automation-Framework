@@ -63,8 +63,10 @@ public abstract class BrowserUtility {
 		if (browserName == Browser.CHROME) {
 			if (isHeadless) {
 				ChromeOptions options = new ChromeOptions();
-				options.addArguments("--headless=old");
-				options.addArguments("--windows-size=1920,1080");
+				options.addArguments("--headless=new");
+				options.addArguments("--no-sandbox");
+				options.addArguments("--disable-dev-shm-usage");
+				options.addArguments("--window-size=1920,1080");
 				driver.set(new ChromeDriver(options));
 			} else {
 				driver.set(new ChromeDriver());
@@ -72,18 +74,22 @@ public abstract class BrowserUtility {
 		} else if (browserName == Browser.EDGE) {
 			if (isHeadless) {
 				EdgeOptions options = new EdgeOptions();
-				options.addArguments("--headless=old");
-				options.addArguments("disable-gpu");
+				options.addArguments("--headless=new");
+				options.addArguments("--no-sandbox");
+				options.addArguments("--disable-dev-shm-usage");
+				options.addArguments("--window-size=1920,1080");
 				driver.set(new EdgeDriver(options));
 			} else {
 				driver.set(new EdgeDriver());
 			}
-
 		} else if (browserName == Browser.FIREFOX) {
 			if (isHeadless) {
 				FirefoxOptions options = new FirefoxOptions();
-				options.addArguments("--headless=old");
-				options.addArguments("disable-gpu");
+				options.addArguments("--headless");
+				options.addArguments("--no-sandbox");
+				options.addArguments("--disable-dev-shm-usage");
+				options.addArguments("--width=1920");
+				options.addArguments("--height=1080");
 				driver.set(new FirefoxDriver(options));
 			} else {
 				driver.set(new FirefoxDriver());
@@ -92,7 +98,7 @@ public abstract class BrowserUtility {
 	}
 
 	public void goToWebsite(String url) {
-		logger.info("Visisting the website " + url);
+		logger.info("Visiting the website " + url);
 		driver.get().get(url);
 	}
 
@@ -102,21 +108,21 @@ public abstract class BrowserUtility {
 	}
 
 	public void clickOn(By locator) {
-		logger.info("Finsing Element with the locator " + locator);
+		logger.info("Finding Element with the locator " + locator);
 		WebElement element = driver.get().findElement(locator);
 		logger.info("Element Found and now performing Click");
 		element.click();
 	}
 
 	public void enterText(By locator, String textToEnter) {
-		logger.info("Finsing Element with the locator " + locator);
+		logger.info("Finding Element with the locator " + locator);
 		WebElement element = driver.get().findElement(locator);
 		logger.info("Element Found and now enter the text " + textToEnter);
 		element.sendKeys(textToEnter);
 	}
 
 	public String getVisibleText(By locator) {
-		logger.info("Finsing Element with the locator " + locator);
+		logger.info("Finding Element with the locator " + locator);
 		WebElement element = driver.get().findElement(locator);
 		logger.info("Element Found and now returning the visible " + element.getText());
 		return element.getText();
@@ -146,7 +152,6 @@ public abstract class BrowserUtility {
 			e.printStackTrace();
 		}
 		return path;
-
 	}
 
 	public void quit() {
