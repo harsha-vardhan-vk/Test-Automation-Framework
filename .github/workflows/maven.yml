@@ -3,16 +3,16 @@ name: Test Automation Workflow
 on:
   schedule:
     - cron: '00 18 * * *'
-    
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - uses: actions/checkout@v4
@@ -23,9 +23,15 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    
+    - name: Setup Chrome Browser
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
         
     - name: Running Test Automation Framework with Maven
       run: mvn test -Dbrowser=chrome -DisLambdaTest=false -DisHeadLess=true
+      timeout-minutes: 10
 
     - name: Upload Test logs
       if: always()
@@ -42,4 +48,5 @@ jobs:
         path: report.html
 
     - name: Test Execution Status
+      if: always()
       run: echo "Test Execution completed"
